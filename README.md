@@ -1,7 +1,7 @@
 # @casys/mcp-calculix
 
 [![JSR](https://jsr.io/badges/@casys/mcp-calculix)](https://jsr.io/@casys/mcp-calculix)
-[![Release checks](https://github.com/Casys-AI/mcp-calculix/actions/workflows/publish.yml/badge.svg)](https://github.com/Casys-AI/mcp-calculix/actions/workflows/publish.yml)
+[![Release checks](https://github.com/superWorldSavior/mcp-calculix/actions/workflows/publish.yml/badge.svg)](https://github.com/superWorldSavior/mcp-calculix/actions/workflows/publish.yml)
 [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 Bounded finite-element analysis for STEP parts, exposed as an MCP server and a
@@ -50,7 +50,7 @@ digest; use that immutable identity rather than a tag:
 qualified deployment identity. `latest` is mutable too.
 
 ```bash
-RELEASE_IDENTITY_URL=https://github.com/Casys-AI/mcp-calculix/releases/download/v0.8.6/release-identity.json
+RELEASE_IDENTITY_URL=https://github.com/superWorldSavior/mcp-calculix/releases/download/v0.8.6/release-identity.json
 curl -fsSLo release-identity.json "$RELEASE_IDENTITY_URL"
 IMAGE_REF="$(jq -er '.image | select(test("^ghcr\\.io/casys-ai/mcp-calculix@sha256:[0-9a-f]{64}$"))' release-identity.json)"
 docker pull "$IMAGE_REF"
