@@ -16,7 +16,7 @@ const CURRENT_RELEASE_VERSION = "0.8.6";
 const CURRENT_DISCOVERY_TAG =
   `ghcr.io/casys-ai/mcp-calculix:${CURRENT_RELEASE_VERSION}`;
 const RELEASE_IDENTITY_URL =
-  `https://github.com/Casys-AI/mcp-calculix/releases/download/v${CURRENT_RELEASE_VERSION}/release-identity.json`;
+  `https://github.com/superWorldSavior/mcp-calculix/releases/download/v${CURRENT_RELEASE_VERSION}/release-identity.json`;
 const DEPLOYMENT_IMAGE_PREFIX = "ghcr.io/casys-ai/mcp-calculix@sha256:";
 const packageMetadata = JSON.parse(
   await Deno.readTextFile(new URL("../deno.json", import.meta.url)),

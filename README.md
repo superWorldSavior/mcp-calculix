@@ -52,7 +52,7 @@ qualified deployment identity. `latest` is mutable too.
 ```bash
 RELEASE_IDENTITY_URL=https://github.com/superWorldSavior/mcp-calculix/releases/download/v0.8.6/release-identity.json
 curl -fsSLo release-identity.json "$RELEASE_IDENTITY_URL"
-IMAGE_REF="$(jq -er '.image | select(test("^ghcr\\.io/casys-ai/mcp-calculix@sha256:[0-9a-f]{64}$"))' release-identity.json)"
+IMAGE_REF="$(jq -er '.image | select(test("^ghcr\\.io/(casys-ai|superworldsavior)/mcp-calculix@sha256:[0-9a-f]{64}$"))' release-identity.json)"
 docker pull "$IMAGE_REF"
 ```
 

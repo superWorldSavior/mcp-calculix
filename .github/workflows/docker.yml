@@ -9,6 +9,9 @@ concurrency:
   group: docker-${{ github.repository }}-${{ github.ref }}
   cancel-in-progress: false
 
+env:
+  REGISTRY_IMAGE: ghcr.io/superworldsavior/mcp-calculix
+
 jobs:
   qualify:
     runs-on: ubuntu-latest
@@ -91,7 +94,7 @@ jobs:
       - uses: docker/metadata-action@v5
         id: meta
         with:
-          images: ghcr.io/casys-ai/mcp-calculix
+          images: ${{ env.REGISTRY_IMAGE }}
           tags: |
             type=raw,value=latest
             type=semver,pattern={{version}}
@@ -120,7 +123,8 @@ jobs:
               --minimum-dependency-age=0 \
               --allow-read="$checkout" --allow-net=jsr.io,rekor.sigstore.dev \
               "$checkout/scripts/verify-jsr-release.ts" \
-              "$checkout" "$version" "$commit"; then
+              "$checkout" "$version" "$commit" \
+              --repository "$GITHUB_REPOSITORY"; then
               exit 0
             fi
             if [ "$attempt" -lt 30 ]; then
@@ -144,17 +148,18 @@ jobs:
             --arg tag "$GITHUB_REF_NAME" \
             --arg commit "$commit" \
             --arg jsr "jsr:@casys/mcp-calculix@${GITHUB_REF_NAME#v}" \
-            --arg image "ghcr.io/casys-ai/mcp-calculix@$IMAGE_DIGEST" \
+            --arg image "$REGISTRY_IMAGE@$IMAGE_DIGEST" \
             '{schema_version:"1.0",version:$version,tag:$tag,commit:$commit,jsr:$jsr,image:$image,platforms:["linux/amd64","linux/arm64"]}' \
             > release-identity.json
           jq -e \
             --arg version "${GITHUB_REF_NAME#v}" \
             --arg tag "$GITHUB_REF_NAME" \
             --arg commit "$commit" \
+            --arg image "$REGISTRY_IMAGE@$IMAGE_DIGEST" \
             '.schema_version == "1.0" and
              .version == $version and .tag == $tag and .commit == $commit and
              (.jsr == ("jsr:@casys/mcp-calculix@" + $version)) and
-             (.image | test("^ghcr\\.io/casys-ai/mcp-calculix@sha256:[0-9a-f]{64}$")) and
+             (.image == $image) and
              .platforms == ["linux/amd64", "linux/arm64"]' \
             release-identity.json >/dev/null
 
